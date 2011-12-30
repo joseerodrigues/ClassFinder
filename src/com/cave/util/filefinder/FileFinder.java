@@ -5,7 +5,8 @@ import java.io.File;
 import java.io.FileFilter;
 
 /**
- *
+ * Recursive find files.
+ * 
  * @author José Rodrigues
  */
 public final class FileFinder {
