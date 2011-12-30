@@ -1,4 +1,3 @@
-
 package com.cave.classfinder;
 
 import com.cave.util.filefinder.FileFinder;
@@ -60,7 +59,7 @@ public final class ClassFinder {
                         className = className.substring(0, className.lastIndexOf("."));
 
 
-                        ClassItem ci = new ClassItem();
+                        ClassItem ci = new ClassItem(jf, entry);
 
                         ci.setItemPackage(itemPackage);
                         ci.setName(className);
@@ -105,7 +104,6 @@ public final class ClassFinder {
                         String pathEls[] = entryName.split("/");
                         String path = (pathPrefix != null) ? pathPrefix : file.getAbsolutePath();
 
-
                         if (pathEls.length > 1) {
                             for (int i = 0; i < pathEls.length - 1; i++) {
                                 path = path + File.separator + pathEls[i];
@@ -119,6 +117,8 @@ public final class ClassFinder {
                     }
                 }
             }
+
+            jf.close();
         } catch (IOException ex) {
             Logger.getLogger(ClassFinder.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -179,7 +179,7 @@ public final class ClassFinder {
                             if (found) {
                                 listener.classFound(filePath, classItem);
                             }
-                        }else{
+                        } else {
                             listener.classFound(filePath, classItem);
                         }
                     }
