@@ -12,4 +12,4 @@ java -jar ClassFinder.jar [-all] [class or package name] [searchDir01] [searchDi
 
 Use '-all' to list all found classes, or provide a full or partial class or package name.
 
-Besides searching directories, you can also specify a file to search inside instead (Jar, War, Ears).
+Besides searching directories, you can also specify a file to search inside instead (Jar, War, Ear).
