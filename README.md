@@ -10,6 +10,6 @@ This can be used as a library or standalone.
 
 java -jar ClassFinder.jar [-all] [class or package name] [searchDir01] [searchDir02] ...
 
-Use '-all' to list all found classes, or provide a full or partial class or package name.
+Use '-all' to list all found classes, or provide a full or partial class or package name. Search isn't case sensitive.
 
 Besides searching directories, you can also specify a file to search inside instead (Jar, War, Ear).
