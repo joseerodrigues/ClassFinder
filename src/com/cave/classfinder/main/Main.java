@@ -68,7 +68,12 @@ public class Main {
                 
             }else if (f.isDirectory() || filter.accept(f)) {
                 
-                ClassFinder.findClasses(f, myListener, searchTerm);
+                if (searchTerm != null){
+                    ClassFinder.findClasses(f, myListener, new SearchTermFilter(searchTerm));
+                }else{
+                    ClassFinder.findClasses(f, myListener);
+                }
+                
                 
             }else{
                 System.err.println("[" + dir + "] is not a directory or a valid java archive file.");

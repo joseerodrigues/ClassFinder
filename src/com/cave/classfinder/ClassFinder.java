@@ -138,6 +138,7 @@ public final class ClassFinder {
                 public void fileFound(File file) {
                     _findClasses(file, listener, null);
                 }
+                
             }, javaFileFilter);
 
         } else if (javaFileFilter.accept(file)) {
@@ -157,47 +158,36 @@ public final class ClassFinder {
 
         findClasses(startF, listener);
     }
-
-    public static void findClasses(File file, final ClassFoundListener listener, final String... classNameParts) {
-
-        ClassFoundListener dListener = listener;
-
-        if (classNameParts != null && classNameParts.length > 0) {
-            dListener = new ClassFoundListener() {
-
-                @Override
-                public void classFound(String filePath, ClassItem classItem) {
-
-                    for (String part : classNameParts) {
-                        if (part != null) {
-                            String lPart = part.toLowerCase();
-                            String lName = classItem.getName().toLowerCase();
-                            String lPackage = classItem.getItemPackage().toLowerCase();
-
-                            boolean found = lName.indexOf(lPart) != -1 || lPackage.indexOf(lPart) != -1;
-
-                            if (found) {
-                                listener.classFound(filePath, classItem);
-                            }
-                        } else {
-                            listener.classFound(filePath, classItem);
-                        }
-                    }
-                }
-            };
+    
+    public static void findClasses(File file, final ClassFoundListener listener, final ClassFoundFilter filter) {
+        
+        if (filter == null){
+            throw new NullPointerException("filter is null.");            
         }
+        
+        ClassFoundListener dListener = new ClassFoundListener() {
 
+            @Override
+            public void classFound(String filePath, ClassItem classItem) {
+                if (filter.accept(filePath, classItem)){
+                    listener.classFound(filePath, classItem);
+                }
+            }
+        };
+        
         findClasses(file, dListener);
+        
     }
-
-    public static void findClasses(String filePath, final ClassFoundListener listener, final String... classNameParts) {
-
+    
+    public static void findClasses(String filePath, final ClassFoundListener listener, final ClassFoundFilter filter) {
+        
         if (filePath == null) {
             throw new NullPointerException("filePath is null.");
         }
 
-        File file = new File(filePath);
-
-        findClasses(file, listener, classNameParts);
+        File startF = new File(filePath);
+        
+        findClasses(startF, listener, filter);
+        
     }
 }
