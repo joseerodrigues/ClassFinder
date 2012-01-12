@@ -2,10 +2,13 @@ package com.cave.classfinder;
 
 import com.cave.util.filefinder.FileFinder;
 import com.cave.util.filefinder.FileFoundListener;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Enumeration;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -19,7 +22,8 @@ import java.util.logging.Logger;
 public final class ClassFinder {
 
     private static final JavaResourcesFileFilter javaFileFilter = new JavaResourcesFileFilter();
-
+    private static final int BUFFER_SIZE = 8192;
+    
     private ClassFinder() {
     }
 
@@ -84,14 +88,12 @@ public final class ClassFinder {
                         temp.delete();
 
                         temp = new File(newPath);
+                                          
 
-                        //System.out.println("NEW : " + temp.getAbsolutePath());                        
-
-                        InputStream eis = jf.getInputStream(entry);
-                        FileOutputStream fos = new FileOutputStream(temp);
-
-                        int chunkSize = 2048;
-                        byte buff[] = new byte[chunkSize];
+                        InputStream eis = new BufferedInputStream(jf.getInputStream(entry));
+                        OutputStream fos = new BufferedOutputStream(new FileOutputStream(temp));
+                        
+                        byte buff[] = new byte[BUFFER_SIZE];
                         int len = 0;
 
                         while ((len = eis.read(buff)) != -1) {
