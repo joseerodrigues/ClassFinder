@@ -57,7 +57,7 @@ public final class ClassFinder {
                             itemPackage = entryName.substring(0, packageIdx);
                         }
 
-                        itemPackage = itemPackage.replaceAll("/", ".");
+                        itemPackage = itemPackage.replace("/", ".");
 
                         String className = entryName.substring(packageIdx + 1);
                         className = className.substring(0, className.lastIndexOf("."));
@@ -90,8 +90,8 @@ public final class ClassFinder {
                         temp = new File(newPath);
                                           
 
-                        InputStream eis = new BufferedInputStream(jf.getInputStream(entry));
-                        OutputStream fos = new BufferedOutputStream(new FileOutputStream(temp));
+                        InputStream eis = jf.getInputStream(entry);
+                        OutputStream fos = new FileOutputStream(temp);
                         
                         byte buff[] = new byte[BUFFER_SIZE];
                         int len = 0;
